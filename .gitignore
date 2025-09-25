@@ -4,3 +4,5 @@ service/target
 service/.idea
 service/.vscode
 service/.mvn
+.vscode/settings.json
+.vscode
