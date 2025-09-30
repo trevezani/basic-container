@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  springboot-test-default:
+    image: springboot-test:0.0.1-alpine
+    container_name: springboot-test-default
+    restart: always
+    networks:
+      - springboot-net
+    ports:
+      - "8080:8080"
+    environment:
+      SERVER_PORT: 8080
+      TZ: America/Sao_Paulo
+      
+  springboot-test-mx:
+    image: springboot-test:0.0.1-alpine
+    container_name: springboot-test-mx
+    restart: always
+    networks:
+      - springboot-net
+    ports:
+      - "8081:8081"
+    environment:
+      SERVER_PORT: 8081
+      APP_MESSAGE: Hola
+      TZ: America/Mexico_City
+
+networks:
+  springboot-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/21      

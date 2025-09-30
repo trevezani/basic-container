@@ -15,3 +15,6 @@ management:
   info.java.enabled: true
 
   endpoints.web.exposure.include: info,health,livenessstate,prometheus,metrics
+
+app:
+  message: "Hello"
