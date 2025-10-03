@@ -136,7 +136,7 @@ La distinción más importante es que cada Máquina Virtual incluye su propio Si
 
     Elimina una red.
 
-## Pasos para el Despliegue de Imagen Docker
+## Pasos para el Despliegue
 
 ```bash
 docker build -t [NOMBRE_BASE]:[VERSION] .
@@ -252,3 +252,46 @@ Kubernetes (K8s) es un sistema de código abierto para la automatización del de
 * kubectl version	
 
     Muestra la versión del cliente (kubectl) y del servidor de Kubernetes (API Server).
+
+## Pasos para el Despliegue    
+
+* Iniciando el Kubernetes
+
+```bash
+minikube start --memory=8192 --cpus=6 --disk-size=50g [--driver=docker]
+minikube addons enable registry
+minikube addons enable ingress```
+```
+
+* Generando la imagen
+
+```bash
+eval $(minikube -p minikube docker-env)
+export IMAGE_NAME=nexus.registry.com.br/springboot-test:0.0.1-alpine
+docker build -t $IMAGE_NAME . --load
+```
+
+* Despliegue
+
+```bash
+kubectl apply -f kubernetes/plataform.yml
+kubectl apply -f kubernetes/ingress.yml
+```
+
+* Pruebas
+
+    * NodePort
+
+    ```bash
+    minikube service sbtest-service --url
+    curl http://127.0.0.1:[PORT]/hello
+    ```
+
+    * ClusterIP
+
+    ```bash
+    kubectl get ingress
+    minikube tunnel
+
+    curl --resolve "sbtest-service.local:80:127.0.0.1" -i http://sbtest-service.local/hello
+    ```

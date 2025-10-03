@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sbtest-service-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: sbtest-service.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sbtest-service
+                port:
+                  number: 8080
